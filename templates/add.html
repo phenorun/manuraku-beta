@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>新しいマニュアルの登録</title>
+</head>
+<body>
+    <h1>📝 新しいマニュアルの登録</h1>
+
+    <form method="POST">
+        タイトル：<br>
+        <input type="text" name="title"><br>
+        <br>
+        カテゴリ：<br>
+        <select name="category">
+            {% for cat in categories %}
+              <option value="{{ cat }}">{{ cat }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        手順（自由記述）：<br>
+        <textarea name="steps" rows="4" cols="50"></textarea><br><br>
+
+
+        注意点（任意）：<br>
+        <textarea name="notes" rows="4" cols="50"></textarea><br><br>
+
+        <button type="submit">登録する</button>
+    </form>
+
+    <p><a href="/">🏠 戻る</a></p>
+</body>
+</html>

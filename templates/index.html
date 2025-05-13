@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>マニュらく - 一覧</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 40px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #333;
+            font-size: 28px;
+        }
+        a {
+            color: #6a1b9a;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .manual {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .manual h3 {
+            margin-top: 0;
+            color: #444;
+        }
+        .manual p {
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>📘 登録済みマニュアル一覧</h1>
+    <a href="/categories" style="display: inline-block; padding: 10px 20px; background: #ddd; border-radius: 6px; text-decoration: none;">
+        📁 カテゴリ一覧
+    </a>
+    <a href="/add">＋新規マニュアルを追加</a>
+
+{% if keyword %}
+  <p style="margin: 10px 0; color: #6a1b9a;">
+    🔍「<strong>{{ keyword }}</strong>」で検索中です
+<a href="/" style="
+  display: inline-block;
+  margin-left: 10px;
+  padding: 4px 10px;
+  border: 1px solid #6a1b9a;
+  border-radius: 4px;
+  color: #6a1b9a;
+  background-color: #f3e5f5;
+  font-size: 14px;
+  text-decoration: none;
+">
+  検索をクリア
+</a>
+  </p>
+{% endif %}
+
+    <ul>
+        {% for manual in manuals %}
+            {% if manual and manual[5] %}
+            <div class="manual">
+                <h3>{{ manual[1] }}</h3>
+                <p><strong>カテゴリ：</strong> {{ manual[2] }}</p>
+                <p><strong>手順：</strong> {{ manual[3] }}</p>
+                <p><strong>注意点：</strong> {{ manual[4] }}</p>
+                <p><strong>🕒 登録日：</strong> {{ manual[5][:16].replace("T", " ") }}</p>
+                <a href="/edit/{{ manual[0] }}">編集</a> 
+                <a href="/delete/{{ manual[0] }}" onclick="return confirm('このマニュアルを削除しますか？')">🗑 削除</a>
+            </div>
+            <hr>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <form method="get">
+        <input type="text" name="q" placeholder="キーワードで検索" value="{{ keyword }}">
+        <select name="sort">
+            <option value="desc" {% if sort == 'desc' %}selected{% endif %}>新しい順</option>
+            <option value="asc" {% if sort == 'asc' %}selected{% endif %}>古い順</option>
+        </select>
+        <button type="submit">検索</button>
+    </form>
+
+    <div style="margin-top: 20px;">
+        {% if page > 1 %}
+            <a href="/?page={{ page - 1 }}&q={{ keyword }}&sort={{ sort }}">← 前のページ</a>
+        {% endif %}
+        <span style="margin: 0 10px;">ページ {{ page }} / {{ total_pages }}</span>
+        {% if page < total_pages %}
+            <a href="/?page={{ page + 1 }}&q={{ keyword }}&sort={{ sort }}">次のページ →</a>
+        {% endif %}
+    </div>
+
+<!-- 🏠 トップに戻るボタン -->
+<div style="margin-top: 30px;">
+    <a href="/" style="text-decoration: none; color: #6a1b9a;">
+        🏠 トップに戻る
+    </a>
+
+
+</body>
+
+
+</html>

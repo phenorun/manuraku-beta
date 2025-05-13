@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>📁 カテゴリ一覧</h1>
+<ul class="category-list">
+    {% for category in categories %}
+        <li><a href="/category/{{ category }}">{{ category }}</a></li>
+    {% endfor %}
+</ul>
+
+<hr>
+
+<h1>カテゴリ管理</h1>
+
+<!-- カテゴリ追加フォーム -->
+<h2>新しいカテゴリを追加</h2>
+<form method="POST" action="/categories/add">
+  <input type="text" name="new_category" placeholder="カテゴリ名">
+  <button type="submit">追加</button>
+</form>
+
+<!-- 既存カテゴリ編集 -->
+<h2>現在のカテゴリ</h2>
+<ul>
+  {% for category in categories %}
+    <li>
+      <form method="POST" action="/categories/edit" style="display:inline">
+        <input type="hidden" name="old_category" value="{{ category }}">
+        <input type="text" name="new_category" value="{{ category }}">
+        <button type="submit">編集</button>
+      </form>
+      <form method="POST" action="/categories/delete" style="display:inline" onsubmit="return confirm('削除しますか？')">
+        <input type="hidden" name="delete_category" value="{{ category }}">
+        <button type="submit">削除</button>
+      </form>
+    </li>
+  {% endfor %}
+</ul>
+
+<p><a href="/">🏠 トップに戻る</a></p>
+{% endblock %}

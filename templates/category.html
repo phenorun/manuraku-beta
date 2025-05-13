@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>マニュらく - 一覧</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 40px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #333;
+            font-size: 28px;
+        }
+        a {
+            color: #6a1b9a;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .manual {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .manual h3 {
+            margin-top: 0;
+            color: #444;
+        }
+        .manual p {
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body>
+
+    {% if category %}
+      <h1>📂 「{{ category }}」カテゴリのマニュアル一覧</h1>
+    {% endif %}
+
+    <h1>📘 登録済みマニュアル一覧</h1>
+    <a href="/add">＋新規マニュアルを追加</a>
+    <p>
+        並び順：
+        <a href="{{ url_for('category_view', category=category, sort='desc') }}">🆕 新しい順</a> /
+        <a href="{{ url_for('category_view', category=category, sort='asc') }}">📜 古い順</a>
+    </p>
+
+    <ul>
+        {% for manual in manuals %}
+        <div class="manual">
+            <h3>{{ manual[1] }}</h3>
+            <p><strong>カテゴリ：</strong> {{ manual[2] }}</p>
+            <p><strong>手順：</strong> {{ manual[3] }}</p>
+            <p><strong>注意点：</strong> {{ manual[4] }}</p>
+            <p><strong>🕒 登録日：</strong>
+                {% if manual[5] %}
+                  {{ manual[5][:16].replace("T", " ") }}
+                {% else %}
+                  不明
+                {% endif %}
+              </p>
+            <a href="/edit/{{ manual[0] }}">編集</a> 
+            <a href="/delete/{{ manual[0] }}" onclick="return confirm('このマニュアルを削除しますか？')">🗑 削除</a>
+        </div>
+        <hr>
+        {% endfor %}
+    </ul>
+
+    <div style="margin-top: 40px; text-align: center;">
+        <a href="/" style="
+          display: inline-block;
+          padding: 10px 20px;
+          background-color: #eee;
+          border-radius: 6px;
+          text-decoration: none;
+          color: #333;
+          font-weight: bold;
+          border: 1px solid #ccc;">
+          🏠 一覧に戻る
+        </a>
+    </div>
+
+</body>
+</html>

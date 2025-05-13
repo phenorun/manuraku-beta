@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>マニュアル編集</title>
+</head>
+<body>
+    <h1>📝マニュアルを編集</h1>
+
+    <form method="POST">
+        名前（任意）:<br>
+        <input type="text" name="name" value="{{ manual['name'] }}"><br><br>
+
+        カテゴリ:<br>
+        <select name="category">
+            {% for cat in categories %}
+                <option value="{{ cat }}" {% if cat == manual['category'] %}selected{% endif %}>{{ cat }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        手順:<br>
+        <textarea name="steps" rows="4" cols="50">{{ manual['idea'] }}</textarea><br><br>
+
+        注意点:<br>
+        <textarea name="notes" rows="4" cols="50">{{ manual['note'] }}</textarea><br><br>
+
+        <button type="submit">更新する</button>
+    </form>
+
+    <p><a href="/">🏠 戻る</a></p>
+</body>
+</html>
